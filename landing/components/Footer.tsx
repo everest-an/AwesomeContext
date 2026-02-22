@@ -42,12 +42,12 @@ export default function Footer() {
               >
                 GitHub
               </a>
-              <a
-                href="#tools"
+              <Link
+                href="/skills"
                 className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--foreground)] transition-colors"
               >
-                Documentation
-              </a>
+                Skills Catalog
+              </Link>
               <a
                 href="#quickstart"
                 className="text-[13px] text-[var(--text-secondary)] hover:text-[var(--foreground)] transition-colors"

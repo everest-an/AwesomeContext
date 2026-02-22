@@ -58,6 +58,67 @@ Then configure Claude Code to point to `http://localhost:3000/mcp`.
 - Backend: Python, FastAPI, Sentence Transformers, FAISS
 - Deployment: Docker, cloud or self-hosted
 
+## Available Skills (62 total)
+
+### Security
+- skills/security-review — Authentication bypass, input sanitization, token storage, CORS, timing attacks
+- skills/security-scan — Automated vulnerability and misconfiguration scanning
+- skills/django-security — Django CSRF, SQL injection prevention, XSS prevention
+- skills/springboot-security — Spring Security authn/authz, validation, secrets, headers
+
+### Testing & TDD
+- skills/tdd-workflow — Red/green/refactor cycle, 80%+ coverage enforcement
+- skills/e2e-testing — Playwright E2E testing, Page Object Model, CI/CD integration
+- skills/python-testing — pytest fixtures, mocking, parametrization, coverage
+- skills/golang-testing — Table-driven tests, subtests, benchmarks, fuzzing
+- skills/cpp-testing — GoogleTest/CTest configuration and patterns
+- skills/django-tdd — pytest-django, factory_boy, mocking, coverage
+- skills/springboot-tdd — JUnit 5, Mockito, MockMvc, Testcontainers, JaCoCo
+- skills/verification-loop — Automated build, lint, test, and security scan loop
+- skills/django-verification — Django migrations, linting, tests, security scans
+- skills/springboot-verification — Spring Boot build, analysis, tests, security
+
+### API & Architecture
+- skills/api-design — REST resource naming, status codes, pagination, versioning
+- skills/backend-patterns — Node.js, Express, Next.js API route patterns
+- skills/frontend-patterns — React, Next.js, state management, performance
+- skills/deployment-patterns — CI/CD pipelines, Docker, health checks, rollbacks
+- skills/docker-patterns — Multi-stage builds, container security, networking
+
+### Database
+- skills/database-migrations — Schema changes, rollbacks, zero-downtime deployments
+- skills/postgres-patterns — Query optimization, indexing, partitioning, security
+- skills/clickhouse-io — ClickHouse analytics, query optimization, data engineering
+- skills/jpa-patterns — JPA/Hibernate entity design, relationships, transactions
+
+### Python
+- skills/python-patterns — PEP 8, type hints, async/await, dataclasses
+- skills/django-patterns — DRF, ORM best practices, caching, signals, middleware
+
+### Java & Spring Boot
+- skills/java-coding-standards — Naming, immutability, Optional, streams, generics
+- skills/springboot-patterns — REST API design, layered services, caching, async
+
+### Go
+- skills/golang-patterns — Error handling, concurrency, interface design, packages
+
+### C++ & Swift
+- skills/cpp-coding-standards — C++ Core Guidelines, RAII, smart pointers
+- skills/swift-actor-persistence — Thread-safe actor-based data persistence
+- skills/swift-protocol-di-testing — Protocol-based DI for testable Swift code
+
+### AI & LLM Patterns
+- skills/cost-aware-llm-pipeline — Model routing, budget tracking, prompt caching
+- skills/iterative-retrieval — Progressive context retrieval refinement
+- skills/eval-harness — Eval-driven development (EDD) framework
+- skills/continuous-learning — Extract and save reusable patterns from sessions
+- skills/regex-vs-llm-structured-text — Decision framework for regex vs LLM parsing
+
+### Universal
+- skills/coding-standards — TypeScript, JavaScript, React, Node.js standards
+- skills/content-hash-cache-pattern — SHA-256 content hash caching pattern
+- skills/strategic-compact — Context compaction at logical intervals
+
 ## Use cases
 
 - AI-assisted code review with security and compliance checks
