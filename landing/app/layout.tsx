@@ -1,4 +1,4 @@
-/* v0.2.1 */
+/* v0.2.2 */
 import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";

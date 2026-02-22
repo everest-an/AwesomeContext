@@ -69,43 +69,48 @@ jobs:
     needs: [changes, build-check]
     if: needs.changes.outputs.landing == 'true' || needs.changes.outputs.mcp == 'true'
     steps:
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
       - name: Deploy landing
         if: needs.changes.outputs.landing == 'true'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          debug: true
-          script: |
-            set -e
-            cd /opt/awesomecontext
-            git pull origin master
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'SCRIPT'
+          set -e
+          cd /opt/awesomecontext
+          git pull origin master
 
-            cd landing
-            npm ci --omit=dev
-            npx prisma generate
-            npm run build
+          cd landing
+          npm ci --omit=dev
+          npx prisma generate
+          npm run build
 
-            pm2 restart landing 2>/dev/null || pm2 start npm --name landing -- start
-            pm2 save
+          pm2 restart landing 2>/dev/null || pm2 start npm --name landing -- start
+          pm2 save
+          SCRIPT
 
       - name: Deploy MCP (Docker)
         if: needs.changes.outputs.mcp == 'true'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          command_timeout: 10m
-          script: |
-            set -e
-            cd /opt/awesomecontext
-            git pull origin master
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'SCRIPT'
+          set -e
+          cd /opt/awesomecontext
+          git pull origin master
 
-            cd deploy
-            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
-            docker image prune -f
+          cd deploy
+          docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+          docker image prune -f
+          SCRIPT
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
 
   # ----------------------------------------------------------------
   # 4. Health check — verify services are running
