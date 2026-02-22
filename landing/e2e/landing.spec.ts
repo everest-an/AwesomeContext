@@ -139,7 +139,7 @@ test.describe("MCP Endpoint", () => {
 
   test("MCP POST /mcp responds to initialize", async ({ request }) => {
     const res = await request.post(`${MCP_BASE}/mcp`, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept": "application/json, text/event-stream" },
       data: {
         jsonrpc: "2.0",
         id: 1,
@@ -157,7 +157,7 @@ test.describe("MCP Endpoint", () => {
   test("MCP tools/list returns 4 tools", async ({ request }) => {
     // First initialize a session
     const initRes = await request.post(`${MCP_BASE}/mcp`, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept": "application/json, text/event-stream" },
       data: {
         jsonrpc: "2.0",
         id: 1,
@@ -175,6 +175,7 @@ test.describe("MCP Endpoint", () => {
     const res = await request.post(`${MCP_BASE}/mcp`, {
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream",
         ...(sessionId ? { "mcp-session-id": sessionId } : {}),
       },
       data: {
@@ -195,7 +196,7 @@ test.describe("MCP Endpoint", () => {
 
   test("MCP get_rules tool works", async ({ request }) => {
     const initRes = await request.post(`${MCP_BASE}/mcp`, {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept": "application/json, text/event-stream" },
       data: {
         jsonrpc: "2.0",
         id: 1,
@@ -212,6 +213,7 @@ test.describe("MCP Endpoint", () => {
     const res = await request.post(`${MCP_BASE}/mcp`, {
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream",
         ...(sessionId ? { "mcp-session-id": sessionId } : {}),
       },
       data: {

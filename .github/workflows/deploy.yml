@@ -88,6 +88,7 @@ jobs:
           cd landing
           npm ci
           npx prisma generate
+          rm -rf .next
           npm run build
 
           pm2 restart landing 2>/dev/null || pm2 start npm --name landing -- start
