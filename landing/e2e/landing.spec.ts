@@ -155,7 +155,7 @@ test.describe("MCP Endpoint", () => {
   });
 
   test("MCP tools/list returns 4 tools", async ({ request }) => {
-    // First initialize a session
+    // Initialize a session
     const initRes = await request.post(`${MCP_BASE}/mcp`, {
       headers: { "Content-Type": "application/json", "Accept": "application/json, text/event-stream" },
       data: {
@@ -171,7 +171,7 @@ test.describe("MCP Endpoint", () => {
     });
     const sessionId = initRes.headers()["mcp-session-id"];
 
-    // List tools
+    // List tools — response may be SSE stream
     const res = await request.post(`${MCP_BASE}/mcp`, {
       headers: {
         "Content-Type": "application/json",
@@ -186,7 +186,12 @@ test.describe("MCP Endpoint", () => {
       },
     });
     expect(res.status()).toBe(200);
-    const json = await res.json();
+    const body = await res.text();
+    // Parse SSE: extract JSON from "data: {...}" lines
+    const dataLines = body.split("\n").filter((l: string) => l.startsWith("data: "));
+    const jsonStr = dataLines.map((l: string) => l.slice(6)).join("");
+    expect(jsonStr.length).toBeGreaterThan(0);
+    const json = JSON.parse(jsonStr);
     const toolNames = json.result?.tools?.map((t: { name: string }) => t.name) ?? [];
     expect(toolNames).toContain("get_rules");
     expect(toolNames).toContain("architect_consult");
@@ -227,7 +232,11 @@ test.describe("MCP Endpoint", () => {
       },
     });
     expect(res.status()).toBe(200);
-    const json = await res.json();
+    const body = await res.text();
+    const dataLines = body.split("\n").filter((l: string) => l.startsWith("data: "));
+    const jsonStr = dataLines.map((l: string) => l.slice(6)).join("");
+    expect(jsonStr.length).toBeGreaterThan(0);
+    const json = JSON.parse(jsonStr);
     expect(json.result?.content).toBeDefined();
     expect(json.result.content.length).toBeGreaterThan(0);
   });
