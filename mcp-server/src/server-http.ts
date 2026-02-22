@@ -363,4 +363,5 @@ app.listen(PORT, () => {
   log(`  SSE (legacy):    http://localhost:${PORT}/sse`);
   log(`  Health:          http://localhost:${PORT}/health`);
   log(`  Backend:         ${process.env.AC_BACKEND_URL || "http://127.0.0.1:8420"}`);
+  log(`  Auth mode:       ${process.env.AC_PUBLIC_MODE === "true" ? "PUBLIC (no key required)" : "API key required"}`);
 });

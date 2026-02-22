@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
+// Public mode: skip API key auth entirely.
+// Set AC_PUBLIC_MODE=true for initial deployment or open-access instances.
+const PUBLIC_MODE = process.env.AC_PUBLIC_MODE === "true";
+
 // In-memory cache: apiKey -> { userId, apiKeyId, expiresAt }
 const keyCache = new Map<
   string,
@@ -30,6 +34,12 @@ declare global {
 export function authMiddleware(skipPaths: string[] = ["/health"]) {
   return async (req: Request, res: Response, next: NextFunction) => {
     if (skipPaths.some((p) => req.path === p || req.path.startsWith(p))) {
+      return next();
+    }
+
+    // Public mode — no API key required
+    if (PUBLIC_MODE) {
+      req.authInfo = { userId: "public", apiKeyId: "public" };
       return next();
     }
 

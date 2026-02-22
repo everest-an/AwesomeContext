@@ -1,11 +1,12 @@
 [build]
 builder = "dockerfile"
 dockerfilePath = "Dockerfile"
-# Build the retrieval-only target (lightweight, no LLM model)
-buildTarget = "retrieval"
+# Cloud: all-in-one MCP HTTP server + Python retrieval backend
+# MCP HTTP (Node.js) is external-facing; Python backend is internal.
+buildTarget = "cloud"
 
 [deploy]
-healthcheckPath = "/v1/health"
-healthcheckTimeout = 10
+healthcheckPath = "/health"
+healthcheckTimeout = 30
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3

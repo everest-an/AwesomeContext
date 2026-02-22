@@ -158,17 +158,20 @@ RUN chmod +x scripts/cloud-start.sh
 
 ENV HOST=0.0.0.0
 ENV BACKEND_PORT=8420
-ENV MCP_PORT=3000
 ENV AC_RETRIEVAL_ONLY=true
 ENV AC_TENSOR_DIR=data/tensors
 ENV AC_INDEX_DIR=data/index
 ENV AC_SOURCE_REPO=vendor/everything-claude-code
 ENV AC_BACKEND_URL=http://127.0.0.1:8420
 ENV PYTHONUNBUFFERED=1
+# Public mode: set to "true" to skip API key auth (initial deployment)
+# Set to "false" once landing page + database are configured.
+ENV AC_PUBLIC_MODE=true
 
+# PORT is injected by Railway/Render; cloud-start.sh maps it to MCP server
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -sf http://localhost:3000/health || exit 1
+    CMD curl -sf http://localhost:${PORT:-3000}/health || exit 1
 
 CMD ["scripts/cloud-start.sh"]
