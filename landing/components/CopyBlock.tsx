@@ -20,7 +20,7 @@ export default function CopyBlock({
   }
 
   return (
-    <div className={`code-block relative group ${className}`}>
+    <div className={`code-block relative group ${className}`} translate="no">
       <button
         type="button"
         onClick={copy}

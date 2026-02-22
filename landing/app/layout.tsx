@@ -86,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -167,7 +167,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${sans.variable} ${mono.variable} antialiased`}>
+      <body className={`${sans.variable} ${mono.variable} antialiased`} suppressHydrationWarning>
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
