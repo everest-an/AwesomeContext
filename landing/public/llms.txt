@@ -1,0 +1,86 @@
+# AwesomeContext
+
+> AwesomeContext is an open-source MCP (Model Context Protocol) server that gives Claude Code instant access to 122+ engineering rules — architecture patterns, security checklists, coding standards, and compliance checks. Sub-5ms retrieval with 96% token savings.
+
+## What it does
+
+AwesomeContext provides four MCP tools that Claude Code calls automatically during development:
+
+1. **get_rules** — Loads project-specific coding standards at the start of every conversation. Detects the project's tech stack (Python, TypeScript, React, Go, etc.) and returns the most relevant rules.
+
+2. **architect_consult** — Returns architecture patterns and design principles before writing code. Covers REST API design, authentication, microservices, database schema, and more.
+
+3. **skill_injector** — Loads complete skill modules on demand. 40+ skills including security review, TDD workflow, Docker patterns, database migrations, API design, and code review.
+
+4. **compliance_verify** — Checks code against loaded rules before committing. Catches SQL injection, XSS, anti-patterns, and OWASP top 10 vulnerabilities.
+
+## Key metrics
+
+- 122+ pre-built engineering rule modules
+- Sub-5ms semantic retrieval per query
+- 96% token savings compared to raw documentation in prompts
+- 40+ injectable skills across all major development areas
+
+## Quick start (cloud — recommended)
+
+Add to Claude Code settings (no installation needed):
+
+```json
+{
+  "mcpServers": {
+    "awesome-context": {
+      "url": "https://mcp.awesomecontext.dev/mcp"
+    }
+  }
+}
+```
+
+## Quick start (self-hosted)
+
+```bash
+git clone https://github.com/everest-an/AwesomeContext.git
+cd AwesomeContext
+docker compose --profile cloud up -d
+```
+
+Then configure Claude Code to point to `http://localhost:3000/mcp`.
+
+## Links
+
+- Website: https://awesomecontext.awareness.market
+- GitHub: https://github.com/everest-an/AwesomeContext
+- MCP endpoint: https://mcp.awesomecontext.dev/mcp
+- License: MIT (free and open source)
+
+## Tech stack
+
+- MCP server: TypeScript, Node.js, MCP SDK
+- Backend: Python, FastAPI, Sentence Transformers, FAISS
+- Deployment: Docker, cloud or self-hosted
+
+## Use cases
+
+- AI-assisted code review with security and compliance checks
+- Architecture consulting before writing code
+- Loading project-specific coding standards automatically
+- Security audits and vulnerability detection
+- TDD workflow guidance
+- Database migration patterns
+- Docker and DevOps best practices
+
+## FAQ
+
+Q: Does AwesomeContext work with Claude Code?
+A: Yes. AwesomeContext is built specifically as an MCP server for Claude Code. Add the server URL to your Claude Code settings and Claude will automatically call the tools during development.
+
+Q: Is it free?
+A: Yes. AwesomeContext is open source under the MIT license. The cloud version at mcp.awesomecontext.dev is free to use with no API key required.
+
+Q: What programming languages and frameworks does it support?
+A: AwesomeContext has rules for Python, TypeScript, JavaScript, Go, Rust, Java, React, Next.js, Django, FastAPI, and more. It detects your project's tech stack automatically.
+
+Q: Can I add my own rules?
+A: Yes. Self-host with Docker and drop markdown files into the vendor/ directory. Rebuild to add your own engineering rules and skills.
+
+Q: How fast is it?
+A: Under 5 milliseconds per query. Rules are pre-indexed using semantic embeddings for instant retrieval.

@@ -1,0 +1,141 @@
+# AwesomeContext — Complete Reference
+
+> AwesomeContext is an open-source MCP (Model Context Protocol) server for Claude Code. It provides instant access to 122+ engineering rules covering architecture patterns, security checklists, coding standards, and compliance checks. Sub-5ms retrieval, 96% token savings.
+
+## Overview
+
+AwesomeContext solves the problem of getting consistent, high-quality engineering guidance into AI coding assistants. Instead of pasting large markdown files into prompts (wasting tokens and context), AwesomeContext compresses rules into an efficient index and serves them through MCP — the protocol that connects Claude Code to external tools.
+
+When a developer starts a Claude Code session, AwesomeContext automatically loads the right rules for their project. When they ask Claude to design an API, AwesomeContext injects architecture best practices. Before committing, it checks code for security vulnerabilities and anti-patterns.
+
+## MCP Tools — Detailed Reference
+
+### 1. get_rules
+
+**Purpose**: Load project-specific coding standards at the start of every conversation.
+
+**Parameters**:
+- `project_type` (string, required) — Tech stack identifier. Examples: "python", "typescript", "react", "django", "golang", "nextjs", "fastapi", "fullstack", "docker", "api"
+
+**Behavior**: Detects the project's tech stack and returns the most relevant rules. Rules cover coding style, security guidelines, testing standards, and best practices specific to the detected stack.
+
+**When to call**: At the START of every conversation.
+
+### 2. architect_consult
+
+**Purpose**: Return architecture patterns, design principles, and domain-specific guidance before writing any code.
+
+**Parameters**:
+- `intent` (string, required) — Design question or task description. Example: "design a REST API with auth and rate limiting"
+- `session_id` (string, optional) — Session ID for context continuity across queries
+
+**Behavior**: Retrieves relevant architecture modules from the index. Returns patterns for API design, database schema, authentication, microservices, event-driven architecture, and more.
+
+**When to call**: BEFORE writing any code that involves design decisions, new features, API design, database schema, or system architecture.
+
+### 3. skill_injector
+
+**Purpose**: Load complete implementation details for specific development skills.
+
+**Parameters**:
+- `skill_id` (string, required) — Skill identifier. Use "list" to see all available skills.
+- `session_id` (string, optional) — Session ID for context continuity
+
+**Available skills (40+)**:
+- `skills/security-review` — Security audit checklists and procedures
+- `skills/tdd-workflow` — Test-driven development workflow
+- `skills/docker-patterns` — Docker and containerization patterns
+- `skills/api-design` — API design patterns and standards
+- `skills/database-migrations` — Database migration patterns
+- `skills/code-review` — Code review checklists
+- And many more — use "list" to see all
+
+**When to call**: When the task involves specific domains like testing, security, Docker, APIs, databases, or code review.
+
+### 4. compliance_verify
+
+**Purpose**: Check code against loaded rules for compliance violations, security issues, and anti-patterns.
+
+**Parameters**:
+- `code` (string, required) — Code snippet or diff to verify
+- `rules_filter` (string, optional) — Filter: "common", "typescript", "python", "golang"
+- `session_id` (string, optional) — Session ID for context continuity
+
+**Behavior**: Analyzes code for violations including:
+- SQL injection vulnerabilities
+- Cross-site scripting (XSS)
+- OWASP top 10 vulnerabilities
+- Code style violations
+- Performance anti-patterns
+- Security misconfigurations
+
+**When to call**: BEFORE finalizing or committing code changes.
+
+## Setup Guide
+
+### Cloud (Recommended)
+
+No installation needed. Add to Claude Code settings:
+
+```json
+{
+  "mcpServers": {
+    "awesome-context": {
+      "url": "https://mcp.awesomecontext.dev/mcp"
+    }
+  }
+}
+```
+
+### Self-Hosted
+
+```bash
+git clone https://github.com/everest-an/AwesomeContext.git
+cd AwesomeContext
+docker compose --profile cloud up -d
+```
+
+Configure Claude Code:
+```json
+{
+  "mcpServers": {
+    "awesome-context": {
+      "url": "http://localhost:3000/mcp"
+    }
+  }
+}
+```
+
+### Optional CLAUDE.md
+
+For automatic tool invocation, add to your project root:
+
+```markdown
+# CLAUDE.md
+
+## MCP Tools — Auto-Invocation Rules
+
+ALWAYS call these tools from the "awesome-context" MCP server:
+
+1. **get_rules** — Call at the START of every conversation with project_type matching this project's stack.
+2. **architect_consult** — Call BEFORE writing any code. Pass your design intent as the "intent" parameter.
+3. **compliance_verify** — Call BEFORE committing code. Pass the code diff as the "code" parameter.
+```
+
+## Architecture
+
+- **MCP Server** (TypeScript/Node.js): Handles MCP protocol communication with Claude Code. Supports both Streamable HTTP and legacy SSE transports.
+- **Backend** (Python/FastAPI): Manages the rule index, performs semantic retrieval using Sentence Transformers and FAISS.
+- **Rule Index**: 122+ engineering modules compiled into semantic embeddings. Cosine similarity search returns the most relevant rules for any query.
+- **Cloud mode**: The backend runs with `AC_RETRIEVAL_ONLY=true`, using pre-compiled tensors and numpy index for keyword/cosine search (~5ms per query, ~100MB memory).
+
+## Supported Languages and Frameworks
+
+Python, TypeScript, JavaScript, Go, Rust, Java, C#, Ruby, PHP, Swift, Kotlin, React, Next.js, Vue, Angular, Svelte, Django, FastAPI, Flask, Express, NestJS, Spring Boot, Rails, Laravel, and more.
+
+## Links
+
+- Website: https://awesomecontext.awareness.market
+- GitHub: https://github.com/everest-an/AwesomeContext
+- MCP endpoint: https://mcp.awesomecontext.dev/mcp
+- License: MIT
