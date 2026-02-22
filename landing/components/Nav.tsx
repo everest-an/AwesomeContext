@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Logo from "./Logo";
 
 const links = [
   { label: "How it works", href: "#how-it-works" },
@@ -29,7 +30,8 @@ export default function Nav() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="/" className="text-[15px] font-medium tracking-tight">
+        <a href="/" className="flex items-center gap-2 text-[15px] font-medium tracking-tight">
+          <Logo size={22} />
           AwesomeContext
         </a>
         <div className="hidden md:flex items-center gap-8">

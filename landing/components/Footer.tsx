@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import RevealOnScroll from "./RevealOnScroll";
+import Logo from "./Logo";
 
 export default function Footer() {
   const techStack = [
@@ -21,7 +22,10 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             {/* Left side */}
             <div>
-              <div className="text-lg font-semibold mb-2">AwesomeContext</div>
+              <div className="flex items-center gap-2 text-lg font-semibold mb-2">
+                <Logo size={20} />
+                AwesomeContext
+              </div>
               <p className="text-[13px] text-[var(--text-secondary)] max-w-md">
                 Compress engineering rules into latent space tensors. Query them
                 in milliseconds. Open source under MIT license.

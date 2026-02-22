@@ -29,10 +29,14 @@ export default function Hero() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto mb-10">
-          Compress engineering rules into latent space tensors.
+        <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-xl mx-auto mb-4">
+          The open-source MCP server that gives Claude Code
           <br />
-          Query them in milliseconds.
+          instant access to engineering rules.
+        </p>
+        <p className="text-[14px] text-[var(--text-tertiary)] leading-relaxed max-w-lg mx-auto mb-10">
+          Architecture patterns, security reviews, coding standards, and compliance
+          checks — retrieved in under 5ms with 96% token savings.
         </p>
 
         {/* Animated Metrics */}

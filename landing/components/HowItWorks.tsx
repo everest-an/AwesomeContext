@@ -1,6 +1,7 @@
 "use client";
 
 import RevealOnScroll from "./RevealOnScroll";
+import CopyBlock from "./CopyBlock";
 
 export default function HowItWorks() {
   return (
@@ -29,7 +30,7 @@ export default function HowItWorks() {
 {
   "mcpServers": {
     "awesome-context": {
-      "url": "https://awesomecontext.awareness.market/mcp"
+      "url": "https://mcp.awesomecontext.dev/mcp"
     }
   }
 }`}
@@ -206,11 +207,11 @@ function Step({
       </p>
 
       {/* Code block */}
-      <div className="code-block p-4 mt-auto">
-        <pre className="text-[var(--text-secondary)] whitespace-pre-wrap">
+      <CopyBlock code={code} className="code-block p-4 mt-auto">
+        <pre className="text-[var(--text-secondary)] whitespace-pre-wrap select-text">
           {code}
         </pre>
-      </div>
+      </CopyBlock>
     </div>
   );
 }
