@@ -149,7 +149,7 @@ def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
     app = FastAPI(
         title="AwesomeContext Rule Injection Gateway",
-        description="Compress engineering rules into latent space tensors via latent-engine",
+        description="Compress engineering rules into latent space tensors",
         version="0.1.0",
         lifespan=lifespan,
     )

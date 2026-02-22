@@ -3,14 +3,14 @@
   <img src="https://img.shields.io/badge/TypeScript-5.5+-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.5+"/>
   <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"/>
   <img src="https://img.shields.io/badge/MCP-v1.12-green" alt="MCP SDK"/>
-  <img src="https://img.shields.io/badge/latent-engine-Qwen3-orange" alt="latent-engine"/>
+  <img src="https://img.shields.io/badge/Engine-Qwen3-orange" alt="Qwen3"/>
 </p>
 
 # AwesomeContext Rule Injection Gateway
 
 > Compress thousands of engineering rules into latent space tensors. Query them in < 150 tokens.
 
-**AwesomeContext** is an implicit context engine that compiles complex engineering instruction sets (rules, skills, agents) from text space into latent space tensors using [latent-engine](https://github.com/internal/latent-engine). Instead of injecting full Markdown documents into Claude Code's context window, AwesomeContext retrieves and decodes compressed neural representations — achieving **96-99% token savings** while preserving semantic fidelity.
+**AwesomeContext** is an implicit context engine that compiles complex engineering instruction sets (rules, skills, agents) from text space into latent space tensors using a proprietary neural compression pipeline. Instead of injecting full Markdown documents into Claude Code's context window, AwesomeContext retrieves and decodes compressed neural representations — achieving **96-99% token savings** while preserving semantic fidelity.
 
 ---
 
@@ -344,7 +344,7 @@ Performance metrics and statistics.
 
 ### Realignment Matrix
 
-The key innovation from latent-engine: a linear projection `M*` that maps model hidden states back to the embedding space, enabling iterative latent reasoning without generating tokens.
+The key innovation: a linear projection `M*` that maps model hidden states back to the embedding space, enabling iterative latent reasoning without generating tokens.
 
 ```
 M* = argmin_M  || W_out @ M - W_in ||²  +  λ||M||²
@@ -397,7 +397,7 @@ At decode time, retrieved latent trajectories are inserted directly into the emb
 ```
 AwesomeContext/
 ├── src/
-│   ├── adapter/                 # latent-engine multi-model adaptation
+│   ├── adapter/                 # Multi-model adaptation layer
 │   │   ├── config.py            # Model profiles, auto hardware detection
 │   │   ├── model_wrapper.py     # Core: load, encode, latent steps, decode
 │   │   ├── chat_template.py     # ChatML prompt construction
@@ -430,7 +430,6 @@ AwesomeContext/
 │       ├── client.ts            # FastAPI HTTP client
 │       └── tools/               # Tool handlers
 ├── vendor/                      # Git submodules
-│   ├── latent-engine/               # Core algorithm
 │   └── everything-claude-code/  # Rule source material
 ├── data/                        # Compiled artifacts (gitignored)
 │   ├── tensors/                 # .safetensors files
@@ -502,7 +501,6 @@ Rules are sourced from [affaan-m/everything-claude-code](https://github.com/affa
 
 ## Built On
 
-- **[latent-engine](https://github.com/internal/latent-engine)** — Latent Multi-Agent Search: the core algorithm for latent space reasoning
 - **[Qwen3](https://huggingface.co/Qwen/Qwen3-4B)** — Base language model for encoding and decoding
 - **[Model Context Protocol](https://modelcontextprotocol.io/)** — Standard protocol for AI tool integration
 - **[Safetensors](https://github.com/huggingface/safetensors)** — Safe, fast tensor serialization with mmap support
@@ -521,5 +519,5 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 ---
 
 <p align="center">
-  <sub>Built with latent-engine | Powered by Qwen3 | Integrated via MCP</sub>
+  <sub>Powered by Qwen3 | Integrated via MCP</sub>
 </p>

@@ -1,7 +1,7 @@
 """Multi-model configuration for AwesomeContext Gateway.
 
 Supports:
-- Qwen3-4B (default) — latent-engine native, GPU bfloat16
+- Qwen3-4B (default) — GPU bfloat16
 - Qwen3-14B — highest quality, GPU bfloat16
 - Qwen2.5-Coder-1.5B-Instruct — lightweight CPU fallback
 """

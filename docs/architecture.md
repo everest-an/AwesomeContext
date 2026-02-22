@@ -58,11 +58,11 @@
 
 ## 2. 模块详细设计
 
-### 2.1 latent-engine 适配层 (`src/adapter/`)
+### 2.1 模型适配层 (`src/adapter/`)
 
 #### 支持模型架构对比
 
-latent-engine 原生支持 Qwen3-4B/14B（默认），同时兼容 Qwen2.5-Coder-1.5B 作为轻量降级方案。三者关键架构差异：
+原生支持 Qwen3-4B/14B（默认），同时兼容 Qwen2.5-Coder-1.5B 作为轻量降级方案。三者关键架构差异：
 
 | 差异点 | Qwen3-4B (默认) | Qwen3-14B | Qwen2.5-Coder-1.5B (轻量备选) |
 |--------|-----------------|-----------|-------------------------------|
@@ -83,7 +83,7 @@ latent-engine 原生支持 Qwen3-4B/14B（默认），同时兼容 Qwen2.5-Coder
 ```python
 class AdaptedModelWrapper:
     """
-    基于 latent-engine ModelWrapper 适配，支持多模型动态加载。
+    模型适配层核心类，支持多模型动态加载。
 
     关键方法：
     - __init__(model_name): 加载指定模型（默认 Qwen3-4B），自动构建 realignment matrix
@@ -365,10 +365,9 @@ e:\AwesomeContext\
 │   ├── PRD.md                          ← 本文件
 │   └── architecture.md                 ← 本文件
 ├── vendor/                             ← Git 子模块
-│   ├── latent-engine/
 │   └── everything-claude-code/
 ├── src/
-│   ├── adapter/                        ← latent-engine 多模型适配 (Qwen3/Qwen2.5)
+│   ├── adapter/                        ← 多模型适配层 (Qwen3/Qwen2.5)
 │   │   ├── __init__.py
 │   │   ├── config.py                   ← 模型常量
 │   │   ├── model_wrapper.py            ← 核心: 模型加载/隐状态/解码

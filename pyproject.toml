@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "awesome-context-gateway"
 version = "0.1.0"
-description = "AwesomeContext Rule Injection Gateway - compress engineering rules into latent space tensors via latent-engine"
+description = "AwesomeContext Rule Injection Gateway - compress engineering rules into latent space tensors"
 requires-python = ">=3.10"
 dependencies = [
     "torch>=2.1.0",

@@ -1,11 +1,10 @@
 """Adapted ModelWrapper with multi-model support (Qwen3-4B/14B, Qwen2.5-1.5B).
 
-Adapted from latent-engine ModelWrapper (internal/latent-engine/models.py).
-Key changes:
+Key features:
 - Multi-model: Qwen3-4B (default, GPU), Qwen3-14B, Qwen2.5-1.5B (CPU fallback)
 - Auto hardware: resolves device/dtype from model profile and available hardware
 - Single model: no dual-model configuration
-- Purpose-built: encode → latent steps → decode pipeline (not multi-agent debate)
+- Purpose-built: encode → latent steps → decode pipeline
 """
 
 from __future__ import annotations
@@ -306,12 +305,12 @@ class AdaptedModelWrapper:
         combined_embeds = torch.cat([left, realigned, right], dim=1)  # [1, seq+n_latent, H]
 
         # Update attention mask
-        latent_enginek = torch.ones(
+        latent_mask = torch.ones(
             (1, realigned.shape[1]), device=self.device, dtype=attention_mask.dtype
         )
         combined_mask = torch.cat([
             attention_mask[:, :insert_idx],
-            latent_enginek,
+            latent_mask,
             attention_mask[:, insert_idx:],
         ], dim=1)
 
