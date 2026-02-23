@@ -7,9 +7,7 @@ build/
 .venv/
 venv/
 
-# Compiled tensors (generated artifacts)
-data/tensors/**/*.safetensors
-data/index/*.npy
+# Compiled tensors — cache only (tensors + index are committed)
 data/cache/
 
 # Node.js
