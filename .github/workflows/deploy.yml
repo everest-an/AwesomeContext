@@ -25,6 +25,7 @@ jobs:
           filters: |
             landing:
               - 'landing/**'
+              - '.github/workflows/deploy.yml'
             mcp:
               - 'mcp-server/**'
               - 'src/**'

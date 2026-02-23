@@ -236,7 +236,7 @@ body {
 
 .constellation-canvas {
   opacity: 0.6;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .section-divider {

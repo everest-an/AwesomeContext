@@ -304,6 +304,19 @@ function ConstellationBg() {
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas!.getBoundingClientRect();
+
+      // If the cursor is outside the hero section, disable attraction.
+      if (
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom
+      ) {
+        mouseX = -1000;
+        mouseY = -1000;
+        return;
+      }
+
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
     };
@@ -316,14 +329,14 @@ function ConstellationBg() {
     init();
     draw();
     window.addEventListener("resize", init);
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", init);
-      canvas.removeEventListener("mousemove", onMouseMove);
-      canvas.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseleave", onMouseLeave);
     };
   }, []);
 
