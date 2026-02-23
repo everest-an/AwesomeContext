@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import StatCard from "@/components/dashboard/StatCard";
 
 export const metadata = { title: "Dashboard" };
 
@@ -174,17 +175,6 @@ export default async function DashboardPage() {
           </table>
         )}
       </div>
-    </div>
-  );
-}
-
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="glass-card rounded-xl p-5">
-      <div className="text-[12px] text-[var(--text-tertiary)] uppercase tracking-wide mb-1">
-        {label}
-      </div>
-      <div className="text-2xl font-bold">{value}</div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { appLog } from "@/lib/app-logger";
 
 // PATCH /api/keys/[id] — Rename an API key
 export const PATCH = auth(async (req, ctx) => {
@@ -57,5 +58,6 @@ export const DELETE = auth(async (req, ctx) => {
     data: { isActive: false },
   });
 
+  appLog("info", "api", "API key revoked", { keyId: id }, req.auth!.user.id);
   return NextResponse.json({ success: true });
 });

@@ -16,10 +16,15 @@ model User {
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
+  source        String?
+  country       String?
+  city          String?
 
   accounts Account[]
   sessions Session[]
   apiKeys  ApiKey[]
+  appLogs  AppLog[]
+  payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -93,4 +98,37 @@ model UsageLog {
   @@index([userId, createdAt])
   @@index([apiKeyId, createdAt])
   @@index([createdAt])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int      // cents (e.g. 999 = $9.99)
+  currency  String   @default("USD")
+  status    String   @default("completed") // completed, pending, refunded
+  method    String?  // manual, transfer, wechat, alipay
+  note      String?  @db.Text
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AppLog {
+  id        String   @id @default(cuid())
+  level     String   // info, warn, error
+  source    String   // auth, api, mcp, system
+  message   String   @db.Text
+  meta      String?  @db.Text // JSON
+  userId    String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([level])
+  @@index([source])
+  @@index([createdAt])
+  @@index([userId])
 }

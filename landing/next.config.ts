@@ -18,6 +18,7 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["geoip-lite"],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

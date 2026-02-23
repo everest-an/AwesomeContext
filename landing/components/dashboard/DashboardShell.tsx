@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import type { Session } from "next-auth";
 import Aurora from "@/components/Aurora";
+import GeoCapture from "@/components/dashboard/GeoCapture";
 
 const navItems = [
   { href: "/dashboard", label: "Overview" },
@@ -23,6 +24,7 @@ export default function DashboardShell({
   return (
     <>
       <Aurora />
+      <GeoCapture />
       <div className="min-h-screen flex">
         {/* Sidebar */}
         <aside className="w-64 glass-strong border-r border-[var(--glass-border)] p-6 flex flex-col shrink-0">
@@ -52,7 +54,7 @@ export default function DashboardShell({
               <Link
                 href="/admin"
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all ${
-                  pathname === "/admin"
+                  pathname.startsWith("/admin")
                     ? "bg-[var(--accent-soft)] text-[var(--accent)]"
                     : "text-[var(--text-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--glass-hover)]"
                 }`}

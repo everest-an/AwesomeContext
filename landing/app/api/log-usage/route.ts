@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { appLog } from "@/lib/app-logger";
 
 // POST /api/log-usage
 // Called asynchronously by MCP server after each tool call.
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
   };
 
   if (!apiKeyId || !userId || !toolName) {
+    appLog("warn", "api", "Usage log missing fields", { apiKeyId, userId, toolName });
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 

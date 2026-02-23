@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { generateApiKey } from "@/lib/api-keys";
+import { appLog } from "@/lib/app-logger";
 
 // GET /api/keys — List user's API keys
 export const GET = auth(async (req) => {
@@ -57,5 +58,6 @@ export const POST = auth(async (req) => {
     },
   });
 
+  appLog("info", "api", "API key created", { name, prefix }, req.auth!.user.id);
   return NextResponse.json({ key, prefix, name }, { status: 201 });
 });

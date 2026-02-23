@@ -1,13 +1,7 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import UsersTable from "@/components/admin/UsersTable";
 
-// GET /api/admin/users
-export const GET = auth(async (req) => {
-  if (!req.auth?.user?.id || req.auth.user.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-
+export default async function AdminUsersPage() {
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
   const users = await prisma.user.findMany({
@@ -59,7 +53,13 @@ export const GET = auth(async (req) => {
     provider: u.accounts[0]?.provider ?? null,
     calls30d: callMap.get(u.id) ?? 0,
     revenue: revenueMap.get(u.id) ?? 0,
+    createdAt: u.createdAt.toISOString(),
   }));
 
-  return NextResponse.json({ users: enrichedUsers });
-});
+  return (
+    <div className="glass-card rounded-2xl p-6">
+      <h2 className="text-lg font-semibold mb-4">All Users</h2>
+      <UsersTable users={enrichedUsers} />
+    </div>
+  );
+}

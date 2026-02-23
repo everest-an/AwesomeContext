@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashApiKey } from "@/lib/api-keys";
+import { appLog } from "@/lib/app-logger";
 
 // POST /api/validate-key
 // Called by MCP server to validate an API key. Public endpoint.
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (!key || !key.isActive) {
+    appLog("warn", "api", "Invalid API key attempt", { prefix: apiKey.slice(0, 7) });
     return NextResponse.json({ valid: false }, { status: 401 });
   }
 

@@ -4,6 +4,7 @@ import GitHub from "next-auth/providers/github";
 import Resend from "next-auth/providers/resend";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
+import { appLog } from "./app-logger";
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "")
   .split(",")
@@ -59,11 +60,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   events: {
     async createUser({ user }) {
+      appLog("info", "auth", "User created", { email: user.email }, user.id!);
       if (user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
         await prisma.user.update({
           where: { id: user.id },
           data: { role: "admin" },
         });
+      }
+    },
+    async signIn({ user }) {
+      appLog("info", "auth", "User signed in", { email: user.email }, user.id!);
+      if (user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+        await prisma.user
+          .update({ where: { id: user.id }, data: { role: "admin" } })
+          .catch(() => {});
       }
     },
   },
