@@ -105,7 +105,9 @@ jobs:
           git pull origin master
 
           cd deploy
-          docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+          # Rebuild cloud (MCP) service only; leave postgres/certbot untouched
+          docker compose -f docker-compose.prod.yml up -d --build --no-deps cloud
+          docker compose -f docker-compose.prod.yml up -d nginx
           docker image prune -f
           SCRIPT
 
