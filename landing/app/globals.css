@@ -360,6 +360,30 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+/* Testimonials marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-reverse {
+  animation: marquee-reverse 40s linear infinite;
+}
+
+.marquee:hover,
+.marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
 /* Pulse ring for metrics */
 @keyframes pulse-ring {
   0% { transform: scale(0.8); opacity: 0.5; }

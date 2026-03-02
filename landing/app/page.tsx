@@ -1,7 +1,10 @@
 import Nav from "../components/Nav";
 import Hero from "../components/Hero";
+import Problem from "../components/Problem";
+import WhoItsFor from "../components/WhoItsFor";
 import HowItWorks from "../components/HowItWorks";
 import Tools from "../components/Tools";
+import Testimonials from "../components/Testimonials";
 import Examples from "../components/Examples";
 import QuickStart from "../components/QuickStart";
 import FAQ from "../components/FAQ";
@@ -26,9 +29,15 @@ export default function Home() {
       <main>
         <Hero />
         <SectionDivider />
+        <Problem />
+        <SectionDivider />
+        <WhoItsFor />
+        <SectionDivider />
         <HowItWorks />
         <SectionDivider />
         <Tools />
+        <SectionDivider />
+        <Testimonials />
         <SectionDivider />
         <Examples />
         <SectionDivider />
