@@ -121,25 +121,19 @@ export default function KeyManager({
           placeholder="Project name (e.g. my-saas-app)"
           className="flex-1 px-4 py-3 rounded-xl glass text-[14px] bg-transparent border border-[var(--glass-border)] focus:border-[var(--accent)] focus:outline-none placeholder:text-[var(--text-tertiary)] transition-colors"
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !creating && activeKeys.length < 5)
+            if (e.key === "Enter" && !creating)
               createKey();
           }}
         />
         <button
           type="button"
           onClick={createKey}
-          disabled={creating || activeKeys.length >= 5}
+          disabled={creating}
           className="btn-glow px-6 py-3 rounded-xl bg-[var(--accent)] text-white text-[14px] font-medium disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           {creating ? "Creating..." : "Create Key"}
         </button>
       </div>
-
-      {activeKeys.length >= 5 && (
-        <p className="text-[12px] text-[var(--text-tertiary)] mb-6">
-          Maximum 5 active keys. Revoke an existing key to create a new one.
-        </p>
-      )}
 
       {/* Newly created key — show ready-to-use config */}
       {newKey && (

@@ -36,17 +36,6 @@ export const POST = auth(async (req) => {
   const body = await req.json().catch(() => ({}));
   const name = (body as { name?: string }).name || "Default Key";
 
-  const activeCount = await prisma.apiKey.count({
-    where: { userId: req.auth.user.id, isActive: true },
-  });
-
-  if (activeCount >= 5) {
-    return NextResponse.json(
-      { error: "Maximum 5 active API keys allowed" },
-      { status: 400 },
-    );
-  }
-
   const { key, hash, prefix } = generateApiKey();
 
   await prisma.apiKey.create({
