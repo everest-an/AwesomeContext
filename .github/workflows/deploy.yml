@@ -70,20 +70,18 @@ jobs:
     needs: [changes, build-check]
     if: needs.changes.outputs.landing == 'true' || needs.changes.outputs.mcp == 'true'
     steps:
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
 
       - name: Deploy landing
         if: needs.changes.outputs.landing == 'true'
+        env:
+          SSHPASS: ${{ secrets.EC2_PASSWORD }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+          sshpass -e ssh -o StrictHostKeyChecking=no \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'SCRIPT'
           set -e
-          cd /home/ec2-user/EverythingClaudeMCP
+          cd ~/EverythingClaudeMCP
           git pull origin master
 
           cd landing
@@ -101,11 +99,13 @@ jobs:
 
       - name: Deploy MCP (Docker)
         if: needs.changes.outputs.mcp == 'true'
+        env:
+          SSHPASS: ${{ secrets.EC2_PASSWORD }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+          sshpass -e ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'SCRIPT'
           set -e
-          cd /home/ec2-user/EverythingClaudeMCP
+          cd ~/EverythingClaudeMCP
           git pull origin master
 
           cd deploy
@@ -114,10 +114,6 @@ jobs:
           docker compose -f docker-compose.prod.yml up -d nginx
           docker image prune -f
           SCRIPT
-
-      - name: Cleanup SSH key
-        if: always()
-        run: rm -f ~/.ssh/deploy_key
 
   # ----------------------------------------------------------------
   # 4. Health check — verify services are running
